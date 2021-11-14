@@ -2,6 +2,7 @@ package qetz.components;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -30,7 +31,7 @@ public final class InjectorFactory {
 
   private Collection<Module> findModules() {
     return scan.classes()
-      .findSubTypes(Module.class)
+      .findInterfaces(Module.class)
       .filter(module -> !ignoredModules.contains(module))
       .map(this::instantiateModule)
       .filter(Objects::nonNull)

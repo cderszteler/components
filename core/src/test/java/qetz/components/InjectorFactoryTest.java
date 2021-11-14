@@ -1,6 +1,5 @@
 package qetz.components;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import org.junit.jupiter.api.Assertions;
