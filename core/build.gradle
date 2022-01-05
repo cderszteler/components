@@ -1,12 +1,25 @@
 plugins {
   id 'java'
+  id 'maven-publish'
 }
 
 group 'qetz'
-version '1.0.0'
+version '1.0.1'
 
 repositories {
   mavenCentral()
+  maven {
+    url 'https://repo.qetz.de/artifactory/repo-prod'
+    credentials {
+      username System.getenv('qetzUser')
+      password System.getenv('qetzPassword')
+    }
+    metadataSources {
+      mavenPom()
+      gradleMetadata()
+      artifact()
+    }
+  }
 }
 
 dependencies {
@@ -20,6 +33,27 @@ dependencies {
 
   testImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      groupId = 'de.qetz'
+      artifactId = 'components-core'
+
+      from components.java
+    }
+  }
+  repositories {
+    maven {
+      url = 'https://repo.qetz.de/artifactory/repo-prod'
+
+      credentials {
+        username = System.getenv('qetzUser')
+        password = System.getenv('qetzPassword')
+      }
+    }
+  }
 }
 
 test {
