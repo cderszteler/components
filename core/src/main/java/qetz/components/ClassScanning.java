@@ -89,35 +89,23 @@ public final class ClassScanning {
   }
 
   public static ClassScanning create() {
-    return new ClassScanning(new ClassGraph()
-      .enableClassInfo()
-      .enableAnnotationInfo()
-      .scan()
-      .getAllClasses()
-    );
+    try (var scan = builder().scan()) {
+      return new ClassScanning(scan.getAllClasses());
+    }
   }
 
   public static ClassScanning createInPackage(String name) {
     Preconditions.checkNotNull(name, "name");
-    return new ClassScanning(new ClassGraph()
-      .enableClassInfo()
-      .enableAnnotationInfo()
-      .acceptPackagesNonRecursive(name)
-      .scan()
-      .getAllClasses()
-    );
+    try (var scan = builder().acceptPackagesNonRecursive(name).scan()) {
+      return new ClassScanning(scan.getAllClasses());
+    }
   }
 
   public static ClassScanning createInPackageRecursive(String name) {
     Preconditions.checkNotNull(name, "name");
-    return new ClassScanning(new ClassGraph()
-      .enableClassInfo()
-      .enableAnnotationInfo()
-      .acceptPackages(name)
-      .scan()
-      .getAllClasses()
-    );
-
+    try (var scan = builder().acceptPackages(name).scan()) {
+      return new ClassScanning(scan.getAllClasses());
+    }
   }
 
   public static ClassScanning explicit(Collection<Class<?>> classes) {
@@ -125,13 +113,20 @@ public final class ClassScanning {
     if (classes.size() == 0) {
       return new ClassScanning(ClassInfoList.emptyList());
     }
-    return new ClassScanning(new ClassGraph()
-      .enableClassInfo()
-      .enableAnnotationInfo()
+    try (var scan = builder()
       .acceptClasses(classes.stream()
         .map(Class::getName)
-        .toArray(String[]::new))
+        .toArray(String[]::new)
+      )
       .scan()
-      .getAllClasses());
+    ) {
+      return new ClassScanning(scan.getAllClasses());
+    }
+  }
+
+  private static ClassGraph builder() {
+    return new ClassGraph()
+      .enableClassInfo()
+      .enableAnnotationInfo();
   }
 }
