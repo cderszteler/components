@@ -2,6 +2,7 @@ package qetz.components.registration.jda.command;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import com.google.inject.Inject;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import qetz.components.ComponentScanning;
@@ -34,6 +35,7 @@ public final class CommandRegistry {
   private final ComponentScanning components;
   private final JDA jda;
 
+  @Inject
   CommandRegistry(
     Map<CommandIdentifier, Command<? super GenericCommandInteractionEvent>> commands,
     RegisterCommand registerCommand,
