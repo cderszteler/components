@@ -10,6 +10,10 @@ import qetz.components.ComponentScanning;
 
 @Component
 public final class CommandModule extends AbstractModule {
+  public static CommandModule create() {
+    return new CommandModule();
+  }
+
   private CommandModule() {}
 
   @Singleton
