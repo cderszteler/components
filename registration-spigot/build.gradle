@@ -29,8 +29,8 @@ dependencies {
 publishing {
   publications {
     maven(MavenPublication) {
-      groupId = 'de.qetz'
-      artifactId = 'components-core'
+      groupId = 'qetz.components'
+      artifactId = 'registration-spigot'
 
       from components.java
     }
