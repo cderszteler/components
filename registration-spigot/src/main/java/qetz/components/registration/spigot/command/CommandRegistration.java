@@ -21,7 +21,7 @@ public final class CommandRegistration {
   public void scanAndRegister(String fallbackPrefix) {
     Preconditions.checkNotNull(fallbackPrefix, "fallbackPrefix");
     scanning.classes()
-      .findInterfaces(CommandExecutor.class)
+      .findSuperType(CommandExecutor.class)
       .forEach(command -> register
         .withFallbackPrefix(fallbackPrefix)
         .withType(command)

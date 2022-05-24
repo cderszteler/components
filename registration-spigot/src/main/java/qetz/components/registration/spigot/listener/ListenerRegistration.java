@@ -26,7 +26,7 @@ public final class ListenerRegistration {
 
   public void scanAndRegister() {
     components.classes()
-      .findInterfaces(Listener.class)
+      .findSuperType(Listener.class)
       .forEach(this::registerType);
   }
 

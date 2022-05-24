@@ -58,7 +58,7 @@ public final class CommandRegistry {
   public void scanAndRegister() {
     var updateAction = jda.updateCommands();
     components.classes()
-      .findInterfaces(Command.class)
+      .findSuperType(Command.class)
       .forEach(command -> registerCommand
         .withUpdateAction(updateAction)
         .withCommand(command)

@@ -35,7 +35,7 @@ public final class InjectorFactory {
 
   private Collection<Module> findModules() {
     return scan.classes()
-      .findInterfaces(Module.class)
+      .findSuperType(Module.class)
       .filter(module -> !ignoredModules.contains(module))
       .map(this::instantiateModule)
       .filter(Objects::nonNull)

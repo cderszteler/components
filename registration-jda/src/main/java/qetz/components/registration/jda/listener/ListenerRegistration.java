@@ -26,7 +26,7 @@ public final class ListenerRegistration {
 
   public void scanAndRegister() {
     components.classes()
-      .findInterfaces(EventListener.class)
+      .findSuperType(EventListener.class)
       .peek(listener -> log.fine(String.format(
         "Registered %s",
         listener.getSimpleName()

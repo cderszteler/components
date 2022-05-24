@@ -1,84 +1,53 @@
 package qetz.components;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
-import io.github.classgraph.ClassInfoList;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.stream.Stream;
 
 public final class ClassScanning {
-  private final ClassInfoList result;
+  private final Collection<Class<?>> result;
 
-  private ClassScanning(ClassInfoList result) {
+  private ClassScanning(Collection<Class<?>> result) {
     this.result = result;
   }
 
   public Stream<Class<?>> findAnnotated(Annotation annotation) {
     Preconditions.checkNotNull(annotation, "annotation");
-    return result
-      .filter(classInfo -> classInfo
-        .hasAnnotation(
-          annotation.getClass().getName()
-        )
-      )
-      .loadClasses()
-      .stream();
+    return findAnnotated(annotation.getClass());
   }
 
   public Stream<Class<?>> findNonAnnotated(Annotation annotation) {
     Preconditions.checkNotNull(annotation, "annotation");
-    return result
-      .filter(classInfo -> !classInfo
-        .hasAnnotation(
-          annotation.getClass().getName()
-        )
-      )
-      .loadClasses()
-      .stream();
+    return findNonAnnotated(annotation.getClass());
   }
 
   public Stream<Class<?>> findAnnotated(Class<? extends Annotation> annotationType) {
     Preconditions.checkNotNull(annotationType, "annotationType");
-    return result
-      .filter(classInfo -> classInfo.hasAnnotation(annotationType.getName()))
-      .loadClasses()
-      .stream();
+    return result.stream()
+      .filter(checked -> checked.isAnnotationPresent(annotationType));
   }
 
   public Stream<Class<?>> findNonAnnotated(Class<? extends Annotation> annotationType) {
     Preconditions.checkNotNull(annotationType, "annotationType");
-    return result
-      .filter(classInfo -> !classInfo.hasAnnotation(annotationType.getName()))
-      .loadClasses()
-      .stream();
-  }
-
-  public <E> Stream<Class<E>> findInterfaces(Class<E> superType) {
-    Preconditions.checkNotNull(superType, "superType");
-    return result
-      .filter(classInfo -> classInfo.implementsInterface(superType.getName()))
-      .stream()
-      .map(this::loadAndCast);
-  }
-
-  public <E> Stream<Class<E>> findSubTypes(Class<E> superType) {
-    Preconditions.checkNotNull(superType, "superType");
-    return result
-      .filter(classInfo -> classInfo.extendsSuperclass(superType.getName()))
-      .stream()
-      .map(this::loadAndCast);
+    return result.stream()
+      .filter(checked -> !checked.isAnnotationPresent(annotationType));
   }
 
   @SuppressWarnings("unchecked")
-  private <E> Class<E> loadAndCast(ClassInfo classInfo) {
-    return (Class<E>) classInfo.loadClass();
+  public <E> Stream<Class<E>> findSuperType(Class<E> superType) {
+    Preconditions.checkNotNull(superType, "superType");
+    return result.stream()
+      .filter(checked -> superType.isAssignableFrom(superType))
+      .map(checked -> (Class<E>) checked);
   }
 
   public Stream<Class<?>> classes() {
-    return result.loadClasses().stream();
+    return result.stream();
   }
 
   private static final String toStringFormat = "ClassScanning{result=%s}";
@@ -90,28 +59,28 @@ public final class ClassScanning {
 
   public static ClassScanning create() {
     try (var scan = builder().scan()) {
-      return new ClassScanning(scan.getAllClasses());
+      return new ClassScanning(scan.getAllClasses().loadClasses());
     }
   }
 
   public static ClassScanning createInPackage(String name) {
     Preconditions.checkNotNull(name, "name");
     try (var scan = builder().acceptPackagesNonRecursive(name).scan()) {
-      return new ClassScanning(scan.getAllClasses());
+      return new ClassScanning(scan.getAllClasses().loadClasses());
     }
   }
 
   public static ClassScanning createInPackageRecursive(String name) {
     Preconditions.checkNotNull(name, "name");
     try (var scan = builder().acceptPackages(name).scan()) {
-      return new ClassScanning(scan.getAllClasses());
+      return new ClassScanning(scan.getAllClasses().loadClasses());
     }
   }
 
   public static ClassScanning explicit(Collection<Class<?>> classes) {
     Preconditions.checkNotNull(classes, "classes");
     if (classes.size() == 0) {
-      return new ClassScanning(ClassInfoList.emptyList());
+      return new ClassScanning(Lists.newArrayList());
     }
     try (var scan = builder()
       .acceptClasses(classes.stream()
@@ -120,7 +89,7 @@ public final class ClassScanning {
       )
       .scan()
     ) {
-      return new ClassScanning(scan.getAllClasses());
+      return new ClassScanning(scan.getAllClasses().loadClasses());
     }
   }
 
