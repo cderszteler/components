@@ -2,10 +2,8 @@ group 'qetz'
 version '1.0.1'
 
 ext {
-  guiceVersion = '5.0.1'
-  classgraphVersion = '4.8.138'
-
-  lombokVersion = '1.18.22'
+  guiceVersion = '5.1.0'
+  classgraphVersion = '4.8.146'
 
   jUnitVersion = '5.8.2'
 }

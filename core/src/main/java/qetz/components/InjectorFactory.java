@@ -2,12 +2,9 @@ package qetz.components;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
@@ -17,9 +14,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static java.util.logging.Level.FINER;
-
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class InjectorFactory {
   private static final Logger log = Logger.getLogger(
     InjectorFactory.class.getSimpleName()
@@ -29,18 +23,26 @@ public final class InjectorFactory {
   private final Collection<Module> manual;
   private final ComponentScanning scan;
 
+  private InjectorFactory(
+    Collection<Class<? extends Module>> ignoredModules,
+    Collection<Module> manual,
+    ComponentScanning scan
+  ) {
+    this.ignoredModules = ignoredModules;
+    this.manual = manual;
+    this.scan = scan;
+  }
+
   private Collection<Module> findModules() {
     return scan.classes()
       .findInterfaces(Module.class)
       .filter(module -> !ignoredModules.contains(module))
       .map(this::instantiateModule)
       .filter(Objects::nonNull)
-      .peek(module -> log.log(FINER, String
-        .format(
-          "loaded injection module: %s",
-          module.getClass().getSimpleName()
-        )
-      ))
+      .peek(module -> log.fine(String.format(
+        "loaded injection module: %s",
+        module.getClass().getSimpleName()
+      )))
       .collect(Collectors.toList());
   }
 
@@ -56,9 +58,10 @@ public final class InjectorFactory {
         | NoSuchMethodException
         | InvocationTargetException instantiateFailure
     ) {
-      log.severe("could not instantiate injector module");
-      log.severe("the application will still load");
-      log.severe(instantiateFailure.getMessage());
+      log.warning(String.format(
+        "could not instantiate injector module. the application will still load: %s",
+        instantiateFailure.getMessage()
+      ));
       return null;
     }
   }

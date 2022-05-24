@@ -8,28 +8,11 @@ version '1.0.1'
 
 repositories {
   mavenCentral()
-  maven {
-    url 'https://repo.qetz.de/artifactory/repo-prod'
-    credentials {
-      username System.getenv('qetzUser')
-      password System.getenv('qetzPassword')
-    }
-    metadataSources {
-      mavenPom()
-      gradleMetadata()
-      artifact()
-    }
-  }
 }
 
 dependencies {
   implementation "com.google.inject:guice:$guiceVersion"
   implementation "io.github.classgraph:classgraph:$classgraphVersion"
-
-  implementation "org.projectlombok:lombok:$lombokVersion"
-  annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-  testCompileOnly  "org.projectlombok:lombok:$lombokVersion"
-  testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
   testImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
@@ -46,7 +29,7 @@ publishing {
   }
   repositories {
     maven {
-      url = 'https://repo.qetz.de/artifactory/repo-prod'
+      url = 'https://repo.qetz.de/artifactory/repo-public'
 
       credentials {
         username = System.getenv('qetzUser')

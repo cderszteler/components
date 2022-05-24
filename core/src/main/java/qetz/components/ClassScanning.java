@@ -4,16 +4,17 @@ import com.google.common.base.Preconditions;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.stream.Stream;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ClassScanning {
   private final ClassInfoList result;
+
+  private ClassScanning(ClassInfoList result) {
+    this.result = result;
+  }
 
   public Stream<Class<?>> findAnnotated(Annotation annotation) {
     Preconditions.checkNotNull(annotation, "annotation");

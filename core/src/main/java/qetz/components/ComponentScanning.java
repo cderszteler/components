@@ -2,13 +2,10 @@ package qetz.components;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ComponentScanning {
   public static ComponentScanning fromScan(ClassScanning scan) {
     Preconditions.checkNotNull(scan, "scan");
@@ -17,6 +14,14 @@ public final class ComponentScanning {
 
   private final ClassScanning scan;
   private Collection<Class<?>> classes;
+
+  private ComponentScanning(
+    ClassScanning scan,
+    Collection<Class<?>> classes
+  ) {
+    this.scan = scan;
+    this.classes = classes;
+  }
 
   public void loadComponents() {
     this.classes = scan
