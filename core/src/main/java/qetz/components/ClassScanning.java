@@ -42,7 +42,7 @@ public final class ClassScanning {
   public <E> Stream<Class<E>> findSuperType(Class<E> superType) {
     Preconditions.checkNotNull(superType, "superType");
     return result.stream()
-      .filter(checked -> superType.isAssignableFrom(superType))
+      .filter(superType::isAssignableFrom)
       .map(checked -> (Class<E>) checked);
   }
 
