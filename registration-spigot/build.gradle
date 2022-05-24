@@ -1,0 +1,53 @@
+plugins {
+  id 'java'
+  id 'maven-publish'
+}
+
+group 'qetz'
+version '1.0.1'
+
+repositories {
+  mavenCentral()
+  maven {
+    url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+  }
+}
+
+ext {
+  spigotVersion = '1.16.5-R0.1-SNAPSHOT'
+}
+
+dependencies {
+  implementation project(':core')
+
+  implementation "org.spigotmc:spigot-api:$spigotVersion"
+  implementation "com.google.inject:guice:$guiceVersion"
+
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      groupId = 'de.qetz'
+      artifactId = 'components-core'
+
+      from components.java
+    }
+  }
+  repositories {
+    maven {
+      url = 'https://repo.qetz.de/artifactory/repo-public'
+
+      credentials {
+        username = System.getenv('qetzUser')
+        password = System.getenv('qetzPassword')
+      }
+    }
+  }
+}
+
+test {
+  useJUnitPlatform()
+}

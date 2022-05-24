@@ -1,2 +1,3 @@
 rootProject.name = 'components'
 include 'core'
+include 'registration-spigot'
