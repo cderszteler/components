@@ -35,7 +35,6 @@ public final class CommandRegistry {
   private final ComponentScanning components;
   private final JDA jda;
 
-  @Inject
   CommandRegistry(
     Map<CommandIdentifier, Command<? super GenericCommandInteractionEvent>> commands,
     RegisterCommand registerCommand,
