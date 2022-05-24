@@ -1,5 +1,4 @@
 group 'qetz'
-version '1.0.2'
 
 ext {
   guiceVersion = '5.1.0'
