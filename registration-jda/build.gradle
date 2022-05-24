@@ -1,0 +1,49 @@
+plugins {
+  id 'java'
+  id 'maven-publish'
+}
+
+version '1.0.0'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  jdaVersion = '5.0.0-alpha.12'
+}
+
+dependencies {
+  implementation project(':core')
+
+  implementation "net.dv8tion:JDA:$jdaVersion"
+  implementation "com.google.inject:guice:$guiceVersion"
+
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      groupId = 'qetz.components'
+      artifactId = 'registration-jda'
+
+      from components.java
+    }
+  }
+  repositories {
+    maven {
+      url = 'https://repo.qetz.de/artifactory/repo-public'
+
+      credentials {
+        username = System.getenv('qetzUser')
+        password = System.getenv('qetzPassword')
+      }
+    }
+  }
+}
+
+test {
+  useJUnitPlatform()
+}
