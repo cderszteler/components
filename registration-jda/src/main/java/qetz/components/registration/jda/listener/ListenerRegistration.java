@@ -1,5 +1,6 @@
 package qetz.components.registration.jda.listener;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.hooks.EventListener;
@@ -14,6 +15,7 @@ public final class ListenerRegistration {
   private final Injector injector;
   private final JDA jda;
 
+  @Inject
   private ListenerRegistration(
     ComponentScanning components,
     Injector injector,
