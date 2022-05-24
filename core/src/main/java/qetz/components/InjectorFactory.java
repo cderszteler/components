@@ -58,6 +58,7 @@ public final class InjectorFactory {
         | NoSuchMethodException
         | InvocationTargetException instantiateFailure
     ) {
+      instantiateFailure.printStackTrace();
       log.warning(String.format(
         "could not instantiate injector module. the application will still load: %s",
         instantiateFailure.getMessage()
