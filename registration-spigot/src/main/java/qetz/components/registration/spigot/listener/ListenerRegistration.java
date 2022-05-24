@@ -1,4 +1,4 @@
-package qetz.components.registration.listener;
+package qetz.components.registration.spigot.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;

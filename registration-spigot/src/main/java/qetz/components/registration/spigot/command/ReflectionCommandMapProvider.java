@@ -1,4 +1,4 @@
-package qetz.components.registration.command;
+package qetz.components.registration.spigot.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;

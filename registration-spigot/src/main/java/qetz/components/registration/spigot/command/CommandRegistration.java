@@ -1,4 +1,4 @@
-package qetz.components.registration.command;
+package qetz.components.registration.spigot.command;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;

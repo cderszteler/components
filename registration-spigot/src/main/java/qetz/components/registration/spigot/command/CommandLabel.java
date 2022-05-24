@@ -1,4 +1,4 @@
-package qetz.components.registration.command;
+package qetz.components.registration.spigot.command;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

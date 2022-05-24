@@ -1,19 +1,17 @@
-package qetz.components.registration.command;
+package qetz.components.registration.spigot.command;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import org.bukkit.command.CommandExecutor;
 
-import static qetz.components.registration.command.RegisterCommand_.Implicits;
-
 public final class RegisterCommand {
-  private final Implicits implicits;
+  private final RegisterCommand_.Implicits implicits;
 
   private Class<? extends CommandExecutor> type;
   private String fallbackPrefix;
 
   @Inject
-  private RegisterCommand(Implicits implicits) {
+  private RegisterCommand(RegisterCommand_.Implicits implicits) {
     this.implicits = implicits;
   }
 
