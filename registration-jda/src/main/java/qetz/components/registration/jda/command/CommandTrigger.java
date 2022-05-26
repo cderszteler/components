@@ -44,9 +44,6 @@ public final class CommandTrigger extends ListenerAdapter {
   }
 
   private <T extends GenericCommandInteractionEvent> void executeCommand(T event) {
-    if (!event.isFromGuild()) {
-      return;
-    }
     var name = event.getName();
 
     try {
