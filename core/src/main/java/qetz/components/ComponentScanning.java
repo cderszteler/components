@@ -7,16 +7,16 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 public final class ComponentScanning {
-  public static ComponentScanning fromScan(ClassScanning scan) {
+  public static ComponentScanning fromScan(ClassScan scan) {
     Preconditions.checkNotNull(scan, "scan");
     return new ComponentScanning(scan, Lists.newArrayList());
   }
 
-  private final ClassScanning scan;
+  private final ClassScan scan;
   private Collection<Class<?>> classes;
 
   private ComponentScanning(
-    ClassScanning scan,
+    ClassScan scan,
     Collection<Class<?>> classes
   ) {
     this.scan = scan;
@@ -29,7 +29,10 @@ public final class ComponentScanning {
       .collect(Collectors.toList());
   }
 
-  public ClassScanning classes() {
-    return ClassScanning.explicit(this.classes);
+  public ClassScan classes() {
+    return ClassScanFactory
+      .createEmpty()
+      .withExplicits(this.classes)
+      .scan();
   }
 }

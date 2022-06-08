@@ -11,7 +11,11 @@ public final class InjectorFactoryTest {
   private final InjectorFactory factory;
 
   private InjectorFactoryTest() {
-    var components = ComponentScanning.fromScan(ClassScanning.create());
+    var components = ComponentScanning.fromScan(
+      ClassScanFactory
+        .createEmpty()
+        .scan()
+    );
     components.loadComponents();
     this.factory = InjectorFactory.create(components);
   }

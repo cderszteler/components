@@ -5,14 +5,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.stream.Collectors;
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public final class ComponentScanningTest {
   private final ComponentScanning scan;
 
   private ComponentScanningTest() {
-    this.scan = ComponentScanning.fromScan(ClassScanning.create());
+    this.scan = ComponentScanning.fromScan(ClassScanFactory.createEmpty().scan());
   }
 
   @Test
@@ -23,10 +21,7 @@ public final class ComponentScanningTest {
 
   @Test
   public void findTestComponent() {
-    var components = scan
-      .classes()
-      .classes()
-      .collect(Collectors.toList());
+    var components = scan.classes().all().toList();
 
     Assertions.assertTrue(
       components.size() > 1,
