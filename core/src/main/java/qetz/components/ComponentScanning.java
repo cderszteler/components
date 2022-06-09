@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public final class ComponentScanning {
+public final class ComponentScanning implements ClassStreamable {
   public static ComponentScanning fromScan(ClassScan scan) {
     Preconditions.checkNotNull(scan, "scan");
     return new ComponentScanning(scan, Lists.newArrayList());
@@ -29,10 +29,8 @@ public final class ComponentScanning {
       .collect(Collectors.toList());
   }
 
-  public ClassScan classes() {
-    return ClassScanFactory
-      .createEmpty()
-      .withExplicits(this.classes)
-      .scan();
+  @Override
+  public ClassStream stream() {
+    return ClassScan.withClasses(classes);
   }
 }
