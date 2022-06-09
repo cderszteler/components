@@ -1,27 +1,20 @@
 package qetz.components;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public final class ComponentScanningTest {
-  private final ComponentScanning scan;
+public final class ComponentScanTest {
+  private final ComponentScan scan;
 
-  private ComponentScanningTest() {
-    this.scan = ComponentScanning.fromScan(ClassScanFactory.createEmpty().scan());
-  }
-
-  @Test
-  @BeforeAll
-  public void loadComponents() {
-    scan.loadComponents();
+  private ComponentScanTest() {
+    this.scan = ComponentScan.fromScan(ClassScanFactory.createEmpty().scan());
   }
 
   @Test
   public void findTestComponent() {
-    var components = scan.classes().all().toList();
+    var components = scan.stream().all().toList();
 
     Assertions.assertTrue(
       components.size() > 1,

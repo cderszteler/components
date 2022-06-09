@@ -6,16 +6,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import qetz.components.ComponentScanning;
+import qetz.components.ComponentScan;
 
 public final class ListenerRegistration {
-  private final ComponentScanning components;
+  private final ComponentScan components;
   private final Injector injector;
   private final Plugin plugin;
 
   @Inject
   private ListenerRegistration(
-    ComponentScanning components,
+    ComponentScan components,
     Injector injector,
     Plugin plugin
   ) {
@@ -25,7 +25,7 @@ public final class ListenerRegistration {
   }
 
   public void scanAndRegister() {
-    components.classes()
+    components.stream()
       .findSuperType(Listener.class)
       .forEach(this::registerType);
   }

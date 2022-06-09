@@ -21,12 +21,12 @@ public final class InjectorFactory {
 
   private final Collection<Class<? extends Module>> ignoredModules;
   private final Collection<Module> manual;
-  private final ComponentScanning scan;
+  private final ComponentScan scan;
 
   private InjectorFactory(
     Collection<Class<? extends Module>> ignoredModules,
     Collection<Module> manual,
-    ComponentScanning scan
+    ComponentScan scan
   ) {
     this.ignoredModules = ignoredModules;
     this.manual = manual;
@@ -34,7 +34,7 @@ public final class InjectorFactory {
   }
 
   private Collection<Module> findModules() {
-    return scan.classes()
+    return scan.stream()
       .findSuperType(Module.class)
       .filter(module -> !ignoredModules.contains(module))
       .map(this::instantiateModule)
@@ -76,7 +76,7 @@ public final class InjectorFactory {
   public static InjectorFactory createWithIgnoredAndManualModules(
     Set<Class<? extends Module>> ignored,
     Set<Module> manual,
-    ComponentScanning scan
+    ComponentScan scan
   ) {
     Preconditions.checkNotNull(ignored, "ignored");
     Preconditions.checkNotNull(manual, "manual");
@@ -86,7 +86,7 @@ public final class InjectorFactory {
 
   public static InjectorFactory createWithManualModels(
     Set<Module> manual,
-    ComponentScanning scan
+    ComponentScan scan
   ) {
 
     Preconditions.checkNotNull(manual, "manual");
@@ -99,7 +99,7 @@ public final class InjectorFactory {
   }
 
   public static InjectorFactory create(
-    ComponentScanning scan
+    ComponentScan scan
   ) {
     Preconditions.checkNotNull(scan, "scan");
     return new InjectorFactory(

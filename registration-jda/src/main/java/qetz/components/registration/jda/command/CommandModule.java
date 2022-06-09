@@ -6,7 +6,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import net.dv8tion.jda.api.JDA;
 import qetz.components.Component;
-import qetz.components.ComponentScanning;
+import qetz.components.ComponentScan;
 
 @Component
 public final class CommandModule extends AbstractModule {
@@ -21,7 +21,7 @@ public final class CommandModule extends AbstractModule {
   @Inject
   CommandRegistry bindRegistry(
     RegisterCommand registerCommand,
-    ComponentScanning components,
+    ComponentScan components,
     JDA jda
   ) {
     return CommandRegistry.empty(registerCommand, components, jda);

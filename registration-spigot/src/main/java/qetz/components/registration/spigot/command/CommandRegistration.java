@@ -3,24 +3,24 @@ package qetz.components.registration.spigot.command;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import org.bukkit.command.CommandExecutor;
-import qetz.components.ComponentScanning;
+import qetz.components.ComponentScan;
 
 public final class CommandRegistration {
-  private final ComponentScanning scanning;
+  private final ComponentScan scan;
   private final RegisterCommand register;
 
   @Inject
   private CommandRegistration(
-    ComponentScanning scanning,
+    ComponentScan scan,
     RegisterCommand register
   ) {
-    this.scanning = scanning;
+    this.scan = scan;
     this.register = register;
   }
 
   public void scanAndRegister(String fallbackPrefix) {
     Preconditions.checkNotNull(fallbackPrefix, "fallbackPrefix");
-    scanning.classes()
+    scan.stream()
       .findSuperType(CommandExecutor.class)
       .forEach(command -> register
         .withFallbackPrefix(fallbackPrefix)

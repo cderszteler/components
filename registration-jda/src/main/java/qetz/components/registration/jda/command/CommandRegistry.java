@@ -2,10 +2,9 @@ package qetz.components.registration.jda.command;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.google.inject.Inject;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
-import qetz.components.ComponentScanning;
+import qetz.components.ComponentScan;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -15,7 +14,7 @@ import java.util.Optional;
 public final class CommandRegistry {
   public static CommandRegistry empty(
     RegisterCommand registerCommand,
-    ComponentScanning components,
+    ComponentScan components,
     JDA jda
   ) {
     Preconditions.checkNotNull(registerCommand, "registerCommand");
@@ -32,13 +31,13 @@ public final class CommandRegistry {
 
   private final Map<CommandIdentifier, Command<? super GenericCommandInteractionEvent>> commands;
   private final RegisterCommand registerCommand;
-  private final ComponentScanning components;
+  private final ComponentScan components;
   private final JDA jda;
 
   CommandRegistry(
     Map<CommandIdentifier, Command<? super GenericCommandInteractionEvent>> commands,
     RegisterCommand registerCommand,
-    ComponentScanning components,
+    ComponentScan components,
     JDA jda
   ) {
     this.commands = commands;
@@ -58,7 +57,7 @@ public final class CommandRegistry {
 
   public void scanAndRegister() {
     var updateAction = jda.updateCommands();
-    components.classes()
+    components.stream()
       .findSuperType(Command.class)
       .forEach(command -> registerCommand
         .withUpdateAction(updateAction)

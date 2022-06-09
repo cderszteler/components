@@ -4,20 +4,20 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.hooks.EventListener;
-import qetz.components.ComponentScanning;
+import qetz.components.ComponentScan;
 
 import java.util.logging.Logger;
 
 public final class ListenerRegistration {
   private static final Logger log = Logger.getLogger(ListenerRegistration.class.getSimpleName());
 
-  private final ComponentScanning components;
+  private final ComponentScan components;
   private final Injector injector;
   private final JDA jda;
 
   @Inject
   private ListenerRegistration(
-    ComponentScanning components,
+    ComponentScan components,
     Injector injector,
     JDA jda
   ) {
@@ -27,7 +27,7 @@ public final class ListenerRegistration {
   }
 
   public void scanAndRegister() {
-    components.classes()
+    components.stream()
       .findSuperType(EventListener.class)
       .peek(listener -> log.fine(String.format(
         "Registered %s",
