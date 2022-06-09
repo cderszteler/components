@@ -1,9 +1,7 @@
 package qetz.components.registration.spigot;
 
-import com.google.common.collect.Lists;
+import qetz.components.ClassScanFactory;
 import qetz.components.ClassScanModule;
-
-import java.util.Collection;
 
 public final class SpigotClassScanModule implements ClassScanModule {
   public static SpigotClassScanModule create() {
@@ -13,7 +11,7 @@ public final class SpigotClassScanModule implements ClassScanModule {
   private SpigotClassScanModule() {}
 
   @Override
-  public Collection<String> recursivePackages() {
-    return Lists.newArrayList(SpigotClassScanModule.class.getPackageName());
+  public void configure(ClassScanFactory factory) {
+    factory.withRecursivePackageByClass(getClass());
   }
 }
