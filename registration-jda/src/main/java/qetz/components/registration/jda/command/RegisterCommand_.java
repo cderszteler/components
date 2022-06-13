@@ -120,7 +120,7 @@ final class RegisterCommand_ {
     if (commands.containsKey(identifier)) {
       throw new IllegalStateException(String.format(
         "could not register %s command, because it has equal identifier with another command",
-        command.getDeclaringClass().getSimpleName()
+        command.getSimpleName()
       ));
     }
     commands.put(identifier, instantiateCommand(command));
