@@ -22,6 +22,7 @@ public final class CommandRegistration {
     Preconditions.checkNotNull(fallbackPrefix, "fallbackPrefix");
     scan.stream()
       .findSuperType(CommandExecutor.class)
+      .asJavaStream()
       .forEach(command -> register
         .withFallbackPrefix(fallbackPrefix)
         .withType(command)

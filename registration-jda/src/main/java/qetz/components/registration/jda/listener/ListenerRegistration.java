@@ -29,6 +29,7 @@ public final class ListenerRegistration {
   public void scanAndRegister() {
     components.stream()
       .findSuperType(EventListener.class)
+      .asJavaStream()
       .peek(listener -> log.fine(String.format(
         "Registered %s",
         listener.getSimpleName()

@@ -7,10 +7,9 @@ import java.util.Collection;
 public final class ComponentScan implements ClassStreamable {
   public static ComponentScan fromScan(ClassScan scan) {
     Preconditions.checkNotNull(scan, "scan");
-    return new ComponentScan(
-      scan
-        .findAnnotated(Component.class)
-        .toList()
+    return new ComponentScan(scan.stream()
+      .findAnnotated(Component.class)
+      .allClassCasted()
     );
   }
 
@@ -23,7 +22,7 @@ public final class ComponentScan implements ClassStreamable {
   }
 
   @Override
-  public ClassStream stream() {
-    return ClassScan.withClasses(components);
+  public ClassStream<?> stream() {
+    return ClassStream.withClasses(components);
   }
 }

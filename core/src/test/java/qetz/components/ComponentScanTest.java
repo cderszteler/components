@@ -9,12 +9,16 @@ public final class ComponentScanTest {
   private final ComponentScan scan;
 
   private ComponentScanTest() {
-    this.scan = ComponentScan.fromScan(ClassScanFactory.createEmpty().scan());
+    this.scan = ComponentScan.fromScan(ClassScanFactory
+      .createEmpty()
+      .withRecursivePackageByClass(getClass())
+      .scan()
+    );
   }
 
   @Test
   public void findTestComponent() {
-    var components = scan.stream().all().toList();
+    var components = scan.stream().all();
 
     Assertions.assertTrue(
       components.size() > 1,

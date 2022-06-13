@@ -36,6 +36,7 @@ public final class InjectorFactory {
   private Collection<Module> findModules() {
     return scan.stream()
       .findSuperType(Module.class)
+      .asJavaStream()
       .filter(module -> !ignoredModules.contains(module))
       .map(this::instantiateModule)
       .filter(Objects::nonNull)

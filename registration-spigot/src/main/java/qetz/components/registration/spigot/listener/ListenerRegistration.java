@@ -27,6 +27,7 @@ public final class ListenerRegistration {
   public void scanAndRegister() {
     components.stream()
       .findSuperType(Listener.class)
+      .asJavaStream()
       .forEach(this::registerType);
   }
 

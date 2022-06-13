@@ -59,6 +59,7 @@ public final class CommandRegistry {
     var updateAction = jda.updateCommands();
     components.stream()
       .findSuperType(Command.class)
+      .asJavaStream()
       .forEach(command -> registerCommand
         .withUpdateAction(updateAction)
         .withCommand(command)
