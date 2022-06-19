@@ -81,9 +81,9 @@ public final class CommandDatas {
     if (options.type() == OptionType.CHANNEL) {
       option.setChannelTypes(options.channelTypes());
     }
-    if (options.type() == OptionType.STRING && !options.autoComplete()) {
+    if (options.type().canSupportChoices() && !options.autoComplete()) {
       for (var choice : options.choices()) {
-        option.addChoice(options.name(), choice);
+        option.addChoice(choice, choice);
       }
     }
     return option;
