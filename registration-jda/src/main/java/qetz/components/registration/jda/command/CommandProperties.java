@@ -24,6 +24,7 @@ public @interface CommandProperties {
     boolean required() default true;
     boolean autoComplete() default false;
     ChannelType[] channelTypes() default {};
+    String[] choices() default {};
   }
 
   @interface SubCommandProperties {
