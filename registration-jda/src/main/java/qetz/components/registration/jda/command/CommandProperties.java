@@ -1,6 +1,8 @@
 package qetz.components.registration.jda.command;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
 import java.lang.annotation.ElementType;
@@ -13,7 +15,7 @@ import java.lang.annotation.Target;
 public @interface CommandProperties {
   String name();
   String description();
-  boolean defaultPermissions() default true;
+  Permission[] defaultPermissions() default {};
   CommandOptions[] options() default {};
   SubCommandProperties[] subCommands() default {};
 

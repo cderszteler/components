@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionE
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 import qetz.components.registration.jda.command.CommandProperties.CommandOptions;
@@ -24,7 +25,9 @@ public final class CommandDatas {
   ) {
     Preconditions.checkNotNull(properties, "properties");
     var data = initializeWithType(type).apply(properties.name());
-    data.setDefaultEnabled(properties.defaultPermissions());
+    data.setDefaultPermissions(DefaultMemberPermissions.enabledFor(
+      properties.defaultPermissions()
+    ));
     if (data instanceof SlashCommandData slashCommandData) {
       extendSlashCommands(properties, slashCommandData);
     }
