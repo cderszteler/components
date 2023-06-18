@@ -1,5 +1,6 @@
 package qetz.components.registration.spigot.command;
 
+import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -9,10 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public final class ReflectionCommandMapProvider implements Provider<CommandMap> {
-  public static ReflectionCommandMapProvider create() {
-    return new ReflectionCommandMapProvider();
-  }
-
+  @Inject
   private ReflectionCommandMapProvider() {}
 
   @Override
