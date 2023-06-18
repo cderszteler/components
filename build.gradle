@@ -1,8 +1,8 @@
 group 'qetz'
 
 ext {
-  guiceVersion = '5.1.0'
-  classgraphVersion = '4.8.146'
+  guiceVersion = '7.0.0'
+  classgraphVersion = '4.8.160'
 
-  jUnitVersion = '5.8.2'
+  jupiterVersion = '5.9.3'
 }

@@ -3,7 +3,7 @@ plugins {
   id 'maven-publish'
 }
 
-version '1.0.9'
+version '1.0.10'
 
 repositories {
   mavenCentral()
@@ -19,11 +19,11 @@ ext {
 dependencies {
   implementation project(':core')
 
-  implementation "org.spigotmc:spigot-api:$spigotVersion"
-  implementation "com.google.inject:guice:$guiceVersion"
+  compileOnly "org.spigotmc:spigot-api:$spigotVersion"
+  compileOnly "com.google.inject:guice:$guiceVersion"
 
-  testImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
 }
 
 publishing {

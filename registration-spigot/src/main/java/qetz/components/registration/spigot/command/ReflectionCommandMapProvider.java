@@ -1,10 +1,10 @@
 package qetz.components.registration.spigot.command;
 
+import jakarta.inject.Provider;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandMap;
 
-import javax.inject.Provider;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
